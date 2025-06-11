@@ -8,13 +8,13 @@ steps:
     args:
       - 'tag'
       - 'gcr.io/$PROJECT_ID/quickstart-image'
-      - 'asia-south1-docker.pkg.dev/$PROJECT_ID/my-repo/quickstart-image:latest' # << UPDATE REGION & REPO
+      - 'asia-south1-docker.pkg.dev/$PROJECT_ID/new-repo/quickstart-image:latest' # << UPDATE REGION & REPO
 
   # 3. Push the image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
-      - 'asia-south1-docker.pkg.dev/$PROJECT_ID/my-repo/quickstart-image:latest' # << UPDATE REGION & REPO
+      - 'asia-south1-docker.pkg.dev/$PROJECT_ID/new-repo/quickstart-image:latest' # << UPDATE REGION & REPO
 
   # 4. Deploy the image (example: Cloud Run)
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -24,7 +24,7 @@ steps:
       - 'deploy'
       - 'quickstart-service' # << UPDATE SERVICE NAME
       - '--image'
-      - 'asia-south1-docker.pkg.dev/$PROJECT_ID/my-repo/quickstart-image:latest' # << UPDATE REGION & REPO
+      - 'asia-south1-docker.pkg.dev/$PROJECT_ID/new-repo/quickstart-image:latest' # << UPDATE REGION & REPO
       - '--region'
       - 'asia-south1' # << UPDATE DEPLOYMENT REGION
       - '--platform'
@@ -32,7 +32,7 @@ steps:
       - '--allow-unauthenticated' # Adjust as needed
 
 images:
-  - 'asia-south1-docker.pkg.dev/$PROJECT_ID/my-repo/quickstart-image:latest' # << UPDATE REGION & REPO
+  - 'asia-south1-docker.pkg.dev/$PROJECT_ID/new-repo/quickstart-image:latest' # << UPDATE REGION & REPO
 
 options:
   logging: CLOUD_LOGGING_ONLY
