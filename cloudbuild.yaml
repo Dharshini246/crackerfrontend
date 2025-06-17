@@ -26,7 +26,8 @@ steps:
         '--image', 'us-central1-docker.pkg.dev/$PROJECT_ID/crackerfrontend/frontend-image',
         '--region', 'us-central1',
         '--platform', 'managed',
-        '--allow-unauthenticated'                    # <-- Optional: make public
+        '--allow-unauthenticated',        # <-- Optional: make public
+         '--port', '80'
       ]
 
 images:
