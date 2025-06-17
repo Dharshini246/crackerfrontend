@@ -1,38 +1,24 @@
 steps:
-  # 1. Build the Docker image
-  - name: 'gcr.io/cloud-builders/docker'
-    args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/quickstart-image', '.' ]
-
-  # 2. Tag the image for Artifact Registry
+  # Step 1: Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
     args:
-      - 'tag'
-      - 'gcr.io/$PROJECT_ID/quickstart-image'
-      - 'us-east4-docker.pkg.dev/$PROJECT_ID/new-repo/quickstart-image:latest' # << UPDATE REGION & REPO
+      [
+        'build',
+        '-t',
+        'us-central1-docker.pkg.dev/$PROJECT_ID/crackerfrontend/frontend-image',
+        '.'
+      ]
 
-  # 3. Push the image to Artifact Registry
+  # Step 2: Push the Docker image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
     args:
-      - 'push'
-      - 'us-east4-docker.pkg.dev/$PROJECT_ID/new-repo/quickstart-image:latest' # << UPDATE REGION & REPO
-
-  # 4. Deploy the image (example: Cloud Run)
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    args:
-      - 'gcloud'
-      - 'run'
-      - 'deploy'
-      - 'quickstart-service' # << UPDATE SERVICE NAME
-      - '--image'
-      - 'us-east4-docker.pkg.dev/$PROJECT_ID/new-repo/quickstart-image:latest' # << UPDATE REGION & REPO
-      - '--region'
-      - 'us-east4' # << UPDATE DEPLOYMENT REGION
-      - '--platform'
-      - 'managed'
-      - '--allow-unauthenticated' # Adjust as needed
+      [
+        'push',
+        'us-central1-docker.pkg.dev/$PROJECT_ID/crackerfrontend/frontend-image'
+      ]
 
 images:
-  - 'us-east4-docker.pkg.dev/$PROJECT_ID/new-repo/quickstart-image:latest' # << UPDATE REGION & REPO
+  - 'us-central1-docker.pkg.dev/$PROJECT_ID/crackerfrontend/frontend-image'
 
 options:
   logging: CLOUD_LOGGING_ONLY
