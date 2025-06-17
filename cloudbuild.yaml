@@ -17,6 +17,18 @@ steps:
         'us-central1-docker.pkg.dev/$PROJECT_ID/crackerfrontend/frontend-image'
       ]
 
+  #Step 3: Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      [
+        'run', 'deploy', 'frontend-service',         # <-- Change this name if you want
+        '--image', 'us-central1-docker.pkg.dev/$PROJECT_ID/crackerfrontend/frontend-image',
+        '--region', 'us-central1',
+        '--platform', 'managed',
+        '--allow-unauthenticated'                    # <-- Optional: make public
+      ]
+
 images:
   - 'us-central1-docker.pkg.dev/$PROJECT_ID/crackerfrontend/frontend-image'
 
