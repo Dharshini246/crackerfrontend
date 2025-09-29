@@ -14,6 +14,6 @@ jobs:
           echo "Frontend repo was updated — backend triggered!"
           curl -X POST \
             -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.BACKEND_PAT }}" \
+            -H "Authorization: Bearer ${{ secrets.New_BACKEND_PAT }}" \
             https://api.github.com/repos/Dharshini246/crackerbackend-rep/dispatches \
             -d '{"event_type":"frontend-updated","client_payload":{}}'
