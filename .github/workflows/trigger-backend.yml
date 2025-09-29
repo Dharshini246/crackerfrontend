@@ -3,16 +3,16 @@ name: Trigger Backend on Frontend Push
 on:
   push:
     branches:
-      - main  # or your branch name
+      - main  
 
 jobs:
   trigger-backend:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger backend GitHub Action via REST API
+      - name: Notify backend repo using repository_dispatch
         run: |
           curl -X POST \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.BACKEND_PAT }}" \
             https://api.github.com/repos/Dharshini246/crackerbackend-rep/actions/workflows/backend-listener.yml/dispatches \
-            -d '{"ref":"master"}'
+            -d '{"event_type":"frontend-updated"}'
