@@ -11,8 +11,9 @@ jobs:
     steps:
       - name: Notify backend repo using repository_dispatch
         run: |
+          echo "Frontend repo was updated — backend triggered!"
           curl -X POST \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.BACKEND_PAT }}" \
-            https://api.github.com/repos/Dharshini246/crackerbackend-rep/actions/workflows/backend-listener.yml/dispatches \
-            -d '{"event_type":"frontend-updated"}'
+            https://api.github.com/repos/Dharshini246/crackerbackend-rep/dispatches \
+            -d '{"event_type":"frontend-updated","client_payload":{}}'
