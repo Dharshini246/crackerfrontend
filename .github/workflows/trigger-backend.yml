@@ -1,19 +1,40 @@
-name: Trigger Backend on Frontend Push
+name: Frontend CI and Trigger Backend
 
 on:
   push:
     branches:
-      - main  
+      - main
 
 jobs:
-  trigger-backend:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Build frontend
+        run: npm run build
+      
+      - name: Run tests
+        run: npm test
+
+  notify-backend:
+    needs: build-and-test
     runs-on: ubuntu-latest
     steps:
       - name: Notify backend repo using repository_dispatch
+        env:
+          BACKEND_REPO: Dharshini246/crackerbackend-rep
+          BACKEND_PAT: ${{ secrets.New_BACKEND_PAT }}
         run: |
-          echo "Frontend repo was updated — backend triggered!"
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          MESSAGE="Frontend build completed at $TIMESTAMP"
+          echo "Sending message to backend repo: $MESSAGE"
+
           curl -X POST \
             -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.New_BACKEND_PAT }}" \
-            https://api.github.com/repos/Dharshini246/crackerbackend-rep/dispatches \
-            -d '{"event_type":"frontend-updated"}'
+            -H "Authorization: Bearer $BACKEND_PAT" \
+            https://api.github.com/repos/$BACKEND_REPO/dispatches \
+            -d '{"event_type":"frontend-updated", "client_payload": {"message": "'"$MESSAGE"'"}}'
